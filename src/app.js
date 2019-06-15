@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const usersRouter = require('./users/users-router')
 const authRouter = require('./auth/auth-router')
+const watchedListRouter = require('./watched_list/watched_list-router')
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', usersRouter)
 app.use('/auth/login', authRouter)
+app.use('/api/watch_list', watchedListRouter)
 
 app.use(function errorHandler(error, req, res, next) {
   let response
