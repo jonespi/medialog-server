@@ -3,6 +3,7 @@ CREATE TABLE watched_list (
   user_id INTEGER REFERENCES mls_users(id) ON DELETE CASCADE NOT NULL,
   title TEXT NOT NULL,
   url TEXT,
+  image TEXT,
   date_added TIMESTAMP DEFAULT now() NOT NULL,
   date_watched TIMESTAMP NOT NULL,
   recommendation TEXT NOT NULL

@@ -40,6 +40,56 @@ describe('Medialog Endpoints', () => {
       })
     })
 
+    context(`Password errors`, () => {
+      it(`responds with 400 error when password is too short`, () => {
+        const testUser = {
+          "user_name": "testuser",
+          "password": "1234567"
+        }
+
+        return supertest(app)
+          .post('/api/users')
+          .send(testUser)
+          .expect(400, {error: 'password must be longer than 8 characters'})
+      })
+
+      it(`responds with 400 error when password is too long`, () => {
+        const testUser = {
+          "user_name": "testuser",
+          "password": '*'.repeat(73)
+        }
+
+        return supertest(app)
+          .post('/api/users')
+          .send(testUser)
+          .expect(400, {error: 'password must be less than 72 characters'})
+      })
+
+      it(`reponds with 400 error when password starts or ends with space`, () => {
+        const testUser = {
+          "user_name": "testuser",
+          "password": ' P@ssw0rd'
+        }
+
+        return supertest(app)
+          .post('/api/users')
+          .send(testUser)
+          .expect(400, {error: 'password cannot start or end with empty spaces'})
+      })
+
+      it(`responds with 400 error when password is not complex enough`, () => {
+        const testUser = {
+          "user_name": "testuser",
+          "password": 'password'
+        }
+
+        return supertest(app)
+          .post('/api/users')
+          .send(testUser)
+          .expect(400, {error: 'password must have an upper case, a lower case, a number, and a special character'})
+      })
+    })
+
     context(`User is already in db`, () => {
       it(`responds with 400 and error`, () => {
         const testUser = {
