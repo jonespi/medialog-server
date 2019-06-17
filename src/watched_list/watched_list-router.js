@@ -6,31 +6,38 @@ const watchedListRouter = express.Router()
 const bodyParser = express.json()
 
 watchedListRouter
-  .route('/:user_id')
+  .route('/')
   .all(requireAuth)
   .get((req, res, next) => {
-    console.log(req.body)
-    WatchedListService.getMoviesForUser(req.app.get('db'), req.params.user_id)
-      .then(movies => {
-        res
+    WatchedListService.getMoviesForUser(req.app.get('db'), req.user.id)
+      .then(usersMovieList => {
+        return res
           .status(201)
-          .json(movies)
+          .json(usersMovieList)
       })
-      .catch(next)
   })
   .post(bodyParser, (req, res, next) => {
-    const { title, url, date_watched, recommendation} = req.body
+    const { title, image, url, date_watched, recommendation } = req.body
     const newMovie = { 
-      user_id: req.params.user_id, 
-      title, 
+      user_id: req.user.id, 
+      title,
+      image, 
       url, 
       date_watched, 
       recommendation 
     }
 
-    WatchedListService.postWatchedMovieForUser(req.app.get('db', newMovie, newMovie.user_id))
+    for(const [key, value] of Object.entries(newMovie)) {
+      if (value == null) {
+        return res.status(400).json({
+          error: `Missing ${key} in request body`
+        })
+      }
+    }
+
+    WatchedListService.postWatchedMovieForUser(req.app.get('db'), newMovie)
       .then(movie => {
-        res
+        return res
           .status(201)
           .json(WatchedListService.serializeMovie(movie))
       })

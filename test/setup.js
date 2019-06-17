@@ -1,5 +1,6 @@
 process.env.TZ = 'UCT'
 process.env.NODE_ENV = 'test'
+process.env.JWT_SECRET = 'this-is-the-password'
 
 require('dotenv').config()
 

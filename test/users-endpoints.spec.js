@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe('Medialog Endpoints', () => {
+describe('User Endpoints', () => {
   let db
 
   const testUsers = helpers.makeUsersArray()

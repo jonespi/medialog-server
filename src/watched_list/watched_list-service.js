@@ -8,17 +8,17 @@ const WatchedListService = {
       .where('user_id', id)
   },
 
-  postWatchedMovieForUser(db, newMovie, user_id) {
+  postWatchedMovieForUser(db, newMovie) {
     return db('watched_list')
       .insert(newMovie)
       .returning('*')
-      .where({user_id})
+      .then(([movie]) => movie)
   },
 
   serializeMovie(movie) {
     return {
-      id,
-      user_id,
+      id: movie.id,
+      user_id: movie.user_id,
       title: xss(movie.title), 
       url: xss(movie.url), 
       date_watched: xss(movie.date_watched), 
