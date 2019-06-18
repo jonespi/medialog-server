@@ -1,11 +1,18 @@
 const xss = require('xss')
 
 const WatchedListService = {
-  getMoviesForUser(db, id) {
+  getMovieById(db, id) {
+    return db('watched_list')
+      .select('*')
+      .where('id', id)
+      .first()
+  },
+
+  getMoviesForUser(db, user_id) {
     return db
       .from('watched_list')
       .select('*')
-      .where('user_id', id)
+      .where('user_id', user_id)
   },
 
   postWatchedMovieForUser(db, newMovie) {
@@ -24,6 +31,12 @@ const WatchedListService = {
       date_watched: xss(movie.date_watched), 
       recommendation: xss(movie.recommendation) 
     }
+  },
+
+  deleteMovie(db, id) {
+    return db('watched_list')
+      .where({ id })
+      .delete()
   }
 }
 

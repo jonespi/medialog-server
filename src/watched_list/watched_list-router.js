@@ -44,4 +44,26 @@ watchedListRouter
       .catch(next)
   })
 
+watchedListRouter
+  .route('/:id')
+  .all(requireAuth)
+  .get((req, res, next) => {
+    WatchedListService.getMovieById(req.app.get('db'), req.params.id)
+      .then(movie => {
+        return res
+          .status(200)
+          .json(movie)
+      })
+      .catch(next)
+  })
+  .delete((req, res, next) => {
+    WatchedListService.deleteMovie(req.app.get('db'), req.params.id)
+      .then(() => {
+        return res
+          .status(200)
+          .json('deleted')
+      })
+      .catch(next)
+  })
+
 module.exports = watchedListRouter;
