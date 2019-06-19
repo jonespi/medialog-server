@@ -37,7 +37,7 @@ const WatchedListService = {
     }
   },
 
-  deleteMovie(db, id) {
+  deleteMedia(db, id) {
     return db('watched_list')
       .where({ id })
       .delete()
