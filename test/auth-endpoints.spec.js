@@ -23,18 +23,18 @@ describe('Auth Endpoints', () => {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe(`POST /api/auth/login`, () => {
+  describe.only(`POST /api/auth/login`, () => {
     beforeEach('insert users', () => {
       helpers.seedUsers(db, testUsers)
     })
 
-  const requiredFields = ['user_name', 'password']
+    const requiredFields = ['user_name', 'password']
 
-  requiredFields.forEach(field => {
-    const loginAttemptBody = {
-      user_name: testUser.user_name,
-      password: testUser.password
-    }
+    requiredFields.forEach(field => {
+      const loginAttemptBody = {
+        user_name: testUser.user_name,
+        password: testUser.password
+      }
 
     it(`responds with 400 required error when ${field} is missing`, () => {
       delete loginAttemptBody[field]

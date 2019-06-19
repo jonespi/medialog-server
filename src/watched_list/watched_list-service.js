@@ -1,35 +1,39 @@
 const xss = require('xss')
 
 const WatchedListService = {
-  getMovieById(db, id) {
+  getMediaById(db, id) {
     return db('watched_list')
       .select('*')
       .where('id', id)
       .first()
   },
 
-  getMoviesForUser(db, user_id) {
+  getMediaForUser(db, user_id) {
     return db
       .from('watched_list')
       .select('*')
       .where('user_id', user_id)
   },
 
-  postWatchedMovieForUser(db, newMovie) {
+  postWatchedMediaForUser(db, newMedia) {
     return db('watched_list')
-      .insert(newMovie)
+      .insert(newMedia)
       .returning('*')
       .then(([movie]) => movie)
   },
 
-  serializeMovie(movie) {
+  serializeMedia(media) {
     return {
-      id: movie.id,
-      user_id: movie.user_id,
-      title: xss(movie.title), 
-      url: xss(movie.url), 
-      date_watched: xss(movie.date_watched), 
-      recommendation: xss(movie.recommendation) 
+      id: media.id,
+      user_id: media.user_id,
+      media_type: media.media_type,
+      season_num: media.season_num,
+      episode_number: media.episode_number,
+      episode_name: media.episode_name,
+      title: xss(media.title), 
+      url: xss(media.url), 
+      date_watched: xss(media.date_watched), 
+      recommendation: xss(media.recommendation) 
     }
   },
 

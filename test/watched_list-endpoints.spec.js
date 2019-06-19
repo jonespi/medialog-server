@@ -22,7 +22,7 @@ describe('Watched List Endpoints', () => {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe.only(`GET /api/watch_list/`, () => {
+  describe(`GET /api/watch_list/`, () => {
     beforeEach('insert users and movies', () => {
       helpers.seedWatchlist(db, testUsers, testMovies)
     })
