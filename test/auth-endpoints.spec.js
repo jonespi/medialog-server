@@ -1,9 +1,8 @@
 const knex = require('knex')
 const app = require('../src/app')
-const jwt = require('jsonwebtoken')
 const helpers = require('./test-helpers')
 
-describe('Auth Endpoints', () => {
+describe.only('Auth Endpoints', () => {
   let db
 
   const testUsers = helpers.makeUsersArray()
@@ -23,7 +22,7 @@ describe('Auth Endpoints', () => {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe.only(`POST /api/auth/login`, () => {
+  describe(`POST /api/auth/login`, () => {
     beforeEach('insert users', () => {
       helpers.seedUsers(db, testUsers)
     })
@@ -81,24 +80,10 @@ describe('Auth Endpoints', () => {
           password: 'P@ssw0rd',
         }
 
-        const expectedToken = jwt.sign(
-          { user_id: testUser.id },
-          process.env.JWT_SECRET,
-          {
-            subject: testUser.user_name,
-            algorithm: 'HS256',
-          }
-        )
-
         return supertest(app)
-          .post('/api/users')
+          .post('/api/auth/login')
           .send(testUser)
-          .then(() => {
-            return supertest(app)
-              .post('/api/auth/login')
-              .send(testUser)
-              .expect(200)
-          })
+          .expect(200)
       })
   })
 

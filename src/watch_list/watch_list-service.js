@@ -1,8 +1,8 @@
 const xss = require('xss')
 
-const WatchedListService = {
+const WatchListService = {
   getMediaById(db, id) {
-    return db('watched_list')
+    return db('watch_list')
       .select('*')
       .where('id', id)
       .first()
@@ -10,13 +10,13 @@ const WatchedListService = {
 
   getMediaForUser(db, user_id) {
     return db
-      .from('watched_list')
+      .from('watch_list')
       .select('*')
       .where('user_id', user_id)
   },
 
   postWatchedMediaForUser(db, newMedia) {
-    return db('watched_list')
+    return db('watch_list')
       .insert(newMedia)
       .returning('*')
       .then(([movie]) => movie)
@@ -38,10 +38,10 @@ const WatchedListService = {
   },
 
   deleteMedia(db, id) {
-    return db('watched_list')
+    return db('watch_list')
       .where({ id })
       .delete()
   }
 }
 
-module.exports = WatchedListService
+module.exports = WatchListService

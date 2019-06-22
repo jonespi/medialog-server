@@ -2,26 +2,26 @@ function makeUsersArray() {
   return [
     {
       id: 1,
-      user_name: 'test-user-1',
-      password: 'P@ssw0rd',
+      user_name: 'testuser1',
+      password: '$2a$12$PzeNfOF2a94vUPBL7Wg4I.RCZydnhqc8Rehlw1DGkAlbJKu7Gr7wi',
       date_created: '2029-01-22T16:28:32.615Z',
     },
     {
       id: 2,
       user_name: 'test-user-2',
-      password: 'P@ssw0rd',
+      password: '$2a$12$PzeNfOF2a94vUPBL7Wg4I.RCZydnhqc8Rehlw1DGkAlbJKu7Gr7wi',
       date_created: '2029-01-22T16:28:32.615Z',
     },
     {
       id: 3,
       user_name: 'test-user-3',
-      password: 'P@ssw0rd',
+      password: '$2a$12$PzeNfOF2a94vUPBL7Wg4I.RCZydnhqc8Rehlw1DGkAlbJKu7Gr7wi',
       date_created: '2029-01-22T16:28:32.615Z',
     },
     {
       id: 4,
       user_name: 'test-user-4',
-      password: 'P@ssw0rd',
+      password: '$2a$12$PzeNfOF2a94vUPBL7Wg4I.RCZydnhqc8Rehlw1DGkAlbJKu7Gr7wi',
       date_created: '2029-01-22T16:28:32.615Z',
     },
   ]
@@ -90,15 +90,13 @@ function seedUsers(db, users) {
     )
 }
 
-function seedWatchlist(db, users, movies) {
+function seedWatchlist(db, media) {
   return db
-    .transaction(async trx => {
-      await trx.into('mls_users').insert(users)
-      await trx.raw(`SELECT setval('mls_users_id_seq', ?)`, [users[users.length - 1].id])
-      await trx.into('watched_list').insert(movies)
-      await trx.raw(`SELECT setval('watched_list_id_seq', ?)`, [movies[movies.length -1].id])
-      }
-    )
+    .into('watch_list')
+    .insert(media)
+    .then(() => {
+      db.raw(`SELECT setval('watch_list_id_seq', ?)`, [media[media.length - 1].id])
+    })
 }
 
 module.exports = {
