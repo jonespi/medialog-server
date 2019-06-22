@@ -1,4 +1,4 @@
 TRUNCATE
   mls_users,
-  watched_list
+  watch_list
   RESTART IDENTITY CASCADE;

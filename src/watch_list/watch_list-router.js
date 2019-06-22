@@ -1,15 +1,15 @@
 const express = require('express')
-const WatchedListService = require('./watched_list-service')
+const WatchListService = require('./watch_list-service')
 const requireAuth = require('../middleware/jwt-auth')
 
-const watchedListRouter = express.Router()
+const watchListRouter = express.Router()
 const bodyParser = express.json()
 
-watchedListRouter
+watchListRouter
   .route('/')
   .all(requireAuth)
   .get((req, res, next) => {
-    WatchedListService.getMediaForUser(req.app.get('db'), req.user.id)
+    WatchListService.getMediaForUser(req.app.get('db'), req.user.id)
       .then(usersMediaList => {
         return res
           .status(201)
@@ -54,20 +54,20 @@ watchedListRouter
       }
     }
 
-    WatchedListService.postWatchedMediaForUser(req.app.get('db'), newMedia)
+    WatchListService.postWatchedMediaForUser(req.app.get('db'), newMedia)
       .then(media => {
         return res
           .status(201)
-          .json(WatchedListService.serializeMedia(media))
+          .json(WatchListService.serializeMedia(media))
       })
       .catch(next)
   })
 
-watchedListRouter
+watchListRouter
   .route('/:id')
   .all(requireAuth)
   .get((req, res, next) => {
-    WatchedListService.getMediaById(req.app.get('db'), req.params.id)
+    WatchListService.getMediaById(req.app.get('db'), req.params.id)
       .then(media => {
         return res
           .status(200)
@@ -76,7 +76,7 @@ watchedListRouter
       .catch(next)
   })
   .delete((req, res, next) => {
-    WatchedListService.deleteMedia(req.app.get('db'), req.params.id)
+    WatchListService.deleteMedia(req.app.get('db'), req.params.id)
       .then(() => {
         return res
           .status(200)
@@ -85,4 +85,4 @@ watchedListRouter
       .catch(next)
   })
 
-module.exports = watchedListRouter;
+module.exports = watchListRouter;

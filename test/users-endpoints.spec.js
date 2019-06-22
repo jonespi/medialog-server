@@ -93,7 +93,7 @@ describe('User Endpoints', () => {
     context(`User is already in db`, () => {
       it(`responds with 400 and error`, () => {
         const testUser = {
-          "user_name": 'test-user-1',
+          "user_name": 'testuser1',
           "password": 'P@ssw0rd'
         }
 
