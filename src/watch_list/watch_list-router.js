@@ -79,7 +79,7 @@ watchListRouter
     WatchListService.deleteMedia(req.app.get('db'), req.params.id)
       .then(() => {
         return res
-          .status(200)
+          .status(204)
           .json('deleted')
       })
       .catch(next)
